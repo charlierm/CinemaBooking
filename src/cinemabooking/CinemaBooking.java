@@ -1,5 +1,7 @@
 package cinemabooking;
 
+import java.util.Iterator;
+
 
 /**
  *
@@ -12,10 +14,18 @@ public class CinemaBooking {
      */
     public static void main(String[] args) throws Exception {
         Screen screen = new Screen(1);
+                
+        ScreenCollection films = new ScreenCollection();
+        films.fetchAll();
         
-        System.out.print(screen.rows);
-        screen.rows = 3234;
-        screen.updateChanges();
+        Iterator itr = films.iterator();
+        
+        while(itr.hasNext()){
+            Screen film = (Screen) itr.next();
+            System.out.println("id" + film.id);
+            System.out.println("rows" + film.rows);
+            System.out.println("columns" + film.columns);
+    }
     }
 }
 
