@@ -29,7 +29,7 @@ public class Screen {
             while(rs.next()){
                 this.id = id;
                 this.rows = rs.getInt("rows");
-                this.rows = rs.getInt("columns");
+                this.columns = rs.getInt("columns");
             }
         }
         catch(Exception e){
