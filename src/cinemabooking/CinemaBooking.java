@@ -15,17 +15,18 @@ public class CinemaBooking {
     public static void main(String[] args) throws Exception {
         Screen screen = new Screen(1);
                 
-        ScreenCollection films = new ScreenCollection();
+        ScreenCollection screens = new ScreenCollection();
+        screens.fetchAll();
+        
+        FilmCollection films = new FilmCollection();
         films.fetchAll();
         
         Iterator itr = films.iterator();
         
         while(itr.hasNext()){
-            Screen film = (Screen) itr.next();
-            System.out.println("id" + film.id);
-            System.out.println("rows" + film.rows);
-            System.out.println("columns" + film.columns);
-    }
+            Film film = (Film) itr.next();
+            System.out.println(film.title);
+        }
     }
 }
 
