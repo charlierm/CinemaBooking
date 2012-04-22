@@ -49,6 +49,29 @@ public class Film {
     }
     
     /**
+     * Fetches film object from database using id
+     * @param id id of film
+     */
+    public void fromId(int id){
+        ResultSet rs;
+        String sql = "SELECT * FROM " 
+                + new Config().getDatabaseConfig().databaseName 
+                + ".films WHERE id=" + "'" + id + "'";
+        try{
+            rs = database.runQuery(sql);
+            while (rs.next()){
+                this.id      = id;
+                title   = rs.getString("title");
+                rating  = rs.getString("rating");
+                length  = rs.getInt("length");
+            }
+        }
+        catch(Exception e){
+            System.err.print("Couldnt Fetch Films");
+        }   
+    }
+    
+    /**
      * Updates any changes made to the Class properties in the Database
      */
     public void updateChanges(){
