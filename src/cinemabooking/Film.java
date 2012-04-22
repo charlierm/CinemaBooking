@@ -52,7 +52,7 @@ public class Film {
      * Fetches film object from database using id
      * @param id id of film
      */
-    public void fromId(int id){
+    public Film fromId(int id){
         ResultSet rs;
         String sql = "SELECT * FROM " 
                 + new Config().getDatabaseConfig().databaseName 
@@ -68,7 +68,8 @@ public class Film {
         }
         catch(Exception e){
             System.err.print("Couldnt Fetch Films");
-        }   
+        }
+        return this;
     }
     
     /**
