@@ -13,14 +13,14 @@ import java.util.Iterator;
  * @author charlie_r_mills
  */
 public class ScreenCollection implements Iterable{
-    /**ArrayList of Film Objects*/
+    /**ArrayList of Screen Objects*/
     private ArrayList screens;
     
     /**Database instance used to connect*/
     private Database database;
     
     /**
-     * Creates a collection of films
+     * Creates a collection of screens
      */
     ScreenCollection(){
         screens = new ArrayList();
