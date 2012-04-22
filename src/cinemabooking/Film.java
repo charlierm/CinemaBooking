@@ -1,6 +1,7 @@
 package cinemabooking;
 
 import cinemabooking.config.*;
+import java.security.Timestamp;
 import java.sql.ResultSet;
 
 /**
@@ -87,6 +88,22 @@ public class Film {
         }
         catch(Exception e){
             System.err.print("Couldnt run film update: " + e);
+        }
+    }
+    
+    public void addNew(){
+        String sql = 
+                "INSERT INTO films(title, rating, length) "
+                + "VALUES("
+                + "'" + this.title + "'" + ", "
+                + "'" + this.rating + "'" + ", "
+                + "'" + new Utilities().timeStamp() +"'"+ ")";
+        
+        try{
+            database.runUpdate(sql);
+        }
+        catch(Exception e){
+            System.err.print("Couldnt run screen update: " + e);
         }
     }
 }
