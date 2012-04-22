@@ -2,6 +2,9 @@ package cinemabooking;
 
 import java.io.InputStream;
 import java.util.Properties;
+import java.security.SecureRandom;
+import java.math.BigInteger;
+
 
 /**
  *
@@ -19,5 +22,10 @@ public class Utilities {
             System.err.print("Couldnt Open XML" + e);
         }
         return properties;
+    }
+    
+    public String randomString(){
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130, random).toString(32);
     }
 }

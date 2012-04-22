@@ -27,6 +27,14 @@ public class CinemaBooking {
             Film film = (Film) itr.next();
             System.out.println(film.title);
         }
+        
+        Showing showing = new Showing().getShowingFromId(1);
+        
+        System.out.print(showing.dateTime);
+        
+        Booking booking = new Booking();
+        booking.setShowing(showing);
+        booking.addNew();
     }
 }
 
