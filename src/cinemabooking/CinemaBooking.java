@@ -1,5 +1,6 @@
 package cinemabooking;
 
+import cinemabooking.gui.MainWindow;
 import java.util.Iterator;
 
 
@@ -13,11 +14,10 @@ public class CinemaBooking {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        Film film = new Film();
-        film.length = 234;
-        film.rating = "pg";
-        film.title = "tidfs dsfsdf ";
-        film.addNew();
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Cinema Booking");
+        new MainWindow();
+        
     }
 }
 

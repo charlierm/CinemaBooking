@@ -1,8 +1,9 @@
 package cinemabooking;
 
 import cinemabooking.config.*;
-import java.security.Timestamp;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
+import us.monoid.web.Resty;
 
 /**
  * Responsible for handling film objects fetched from the Database Class
@@ -19,6 +20,9 @@ public class Film {
     public int length;
     //Database Instance*/
     private Database database;
+    /**Movie image path*/
+    public String imagePath;
+    
     
     
     Film(){
@@ -105,5 +109,21 @@ public class Film {
         catch(Exception e){
             System.err.print("Couldnt run screen update: " + e);
         }
+    }
+    
+    public void getFromFlixster(){
+        String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=shaun%20of%20the%20dead&page_limit=1&page=1&apikey=arh4c7r5tyfxf5u5d53v7tqk";
+        Resty r = new Resty();
+        try {
+            String encodedTitle = URLEncoder.encode(title, "UTF-8");
+            System.out.print(encodedTitle);
+            System.out.print(r.json(url).get("movies[0].critics_consensus"));
+        } catch (Exception e) {
+            System.err.print(e);
+        }
+        
+        
+        
+        
     }
 }

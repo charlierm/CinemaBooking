@@ -23,13 +23,13 @@ public class FilmCollection implements Iterable{
     /**
      * Creates a collection of films
      */
-    FilmCollection(){
+    public FilmCollection(){
         films = new ArrayList();
     }
     /**
      * Fetches all film objects from the database
      */
-    public void fetchAll(){
+    public FilmCollection fetchAll(){
         String sql = "SELECT * FROM films";
          try{
             database = new Database();
@@ -45,7 +45,8 @@ public class FilmCollection implements Iterable{
         }
         catch(Exception e){
             System.err.print(e);
-        }   
+        }
+         return this;
     }
     
     /**
@@ -80,5 +81,13 @@ public class FilmCollection implements Iterable{
     @Override
     public Iterator iterator() {
         return films.iterator();
+    }
+    
+    /**
+     * Returns the number of films in the collection
+     * @return 
+     */
+    public int countFilms(){
+        return films.size();
     }
 }

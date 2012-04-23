@@ -22,7 +22,7 @@ public class ScreenCollection implements Iterable{
     /**
      * Creates a collection of screens
      */
-    ScreenCollection(){
+    public ScreenCollection(){
         screens = new ArrayList();
     }
     /**
@@ -76,5 +76,11 @@ public class ScreenCollection implements Iterable{
     public Iterator iterator() {
         return screens.iterator();
     }
+    
+    /**
+     * Returns the length of the collection
+     * @return 
+     */
+    
     
 }
