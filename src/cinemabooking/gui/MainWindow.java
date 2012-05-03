@@ -28,7 +28,7 @@ public class MainWindow extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Booking System");
         setTitle("Booking System");
-        setSize(800,500);
+        setSize(1350,500);
         
         
         this.createMenu();

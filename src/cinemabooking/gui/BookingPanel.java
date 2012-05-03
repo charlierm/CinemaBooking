@@ -5,16 +5,17 @@
 package cinemabooking.gui;
 
 import cinemabooking.Database;
+import cinemabooking.Utilities;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import java.util.*;
+import javax.swing.*;
 
 /**
  *
@@ -22,12 +23,17 @@ import javax.swing.JPanel;
  */
 public class BookingPanel implements ActionListener{
     
+    public JPanel seatingPanel;
+    public JPanel managementPanel;
     public JPanel frame;
     public JPanel left;
     public JPanel center;
     public JPanel right;
-    
+    protected ArrayList<ArrayList> ticketList;
+    protected JTextField priceLabel;
     private ArrayList<ArrayList> buttonArray; 
+    public ShoppingCart cart;
+    public JComboBox ticketCombo;
     
     
     BookingPanel(JPanel bookingJPanel){
@@ -35,21 +41,23 @@ public class BookingPanel implements ActionListener{
        center = new JPanel();
        left = new JPanel();
        right = new JPanel();
-       
-        
-       frame.setLayout(new GridLayout(0, 3));
-       frame.add(left);
-       frame.add(center);
-       frame.add(right);
-       
-       
+       seatingPanel = new JPanel();
+       managementPanel = new JPanel(); 
+       //Set Layouts
+       frame.setLayout(new BorderLayout());
+       seatingPanel.setLayout(new GridLayout(0, 3));
        left.setLayout(new GridLayout(5, 5));
        center.setLayout(new GridLayout(5, 10));
        right.setLayout(new GridLayout(5, 10));
-       
-       JButton testb = new JButton("Test");
-       testb.addActionListener(this);
-       right.add(testb);
+       frame.add(seatingPanel, BorderLayout.CENTER);
+       managementPanel.setBackground(Color.lightGray);
+       managementPanel.setPreferredSize(new Dimension(100,200));
+       //Add Panels
+       frame.add(managementPanel, BorderLayout.SOUTH);
+       seatingPanel.add(left);
+       seatingPanel.add(center);
+       seatingPanel.add(right);
+             
        
        this.createButtonArray();
        try{
@@ -59,6 +67,7 @@ public class BookingPanel implements ActionListener{
            
        }
        this.printSeats();
+       this.managementPanel();
     }
     
     private void createButtonArray(){
@@ -104,10 +113,11 @@ public class BookingPanel implements ActionListener{
             ArrayList button = (ArrayList) itr.next();
             JButton jButton = (JButton) button.get(0);
             jButton.addActionListener(this);
+            jButton.setPreferredSize(new Dimension(10,20));
             if((Integer)button.get(1) == 1){
                 jButton.setEnabled(false);
             }
-            if (i<50){
+            if (i<51){
                 left.add(jButton);
             }
             else if (i > 50 && i<101){
@@ -120,19 +130,82 @@ public class BookingPanel implements ActionListener{
         }
         
     }
+    
+    public void managementPanel(){
+        int ticketTypeCount = 0;
+        ResultSet rs = null;
+        
+
+        try{
+            rs = new Database().runQuery("SELECT * FROM tickets");     
+        }
+        catch(Exception e){
+            System.err.println(e);
+        } 
+        
+        ArrayList<String> ticketListArray = new ArrayList();
+        ticketList = new ArrayList();
+        
+        try{
+            while(rs.next()){
+                ArrayList ticket = new ArrayList();
+                ticket.add(rs.getInt("id"));
+                ticket.add(rs.getString("type"));
+                ticket.add(rs.getFloat("price"));
+                ticketListArray.add(rs.getString("type"));
+                ticketList.add(ticket);
+            }
+        }
+        catch(Exception e){
+            
+        }
+        
+        //add action listener
+        ticketCombo = new JComboBox(ticketListArray.toArray());
+        managementPanel.add(new JLabel("Please Select Ticket Type"));
+        managementPanel.add(ticketCombo);
+        priceLabel = new JTextField();
+        managementPanel.add(priceLabel);
+        ticketCombo.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                ArrayList ticket =  (ArrayList) ticketList.get(ticketCombo.getSelectedIndex());
+                setPriceLabelText(ticket.get(2).toString());
+                
+            }
+        });
+    }
+    
+    public void setPriceLabelText(String price){
+        this.priceLabel.setText("£" + price);
+    }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+        //Check to see if cart is empty
+        if (cart == null){
+            cart = new ShoppingCart();
+        }
         JButton button = (JButton) ae.getSource();
         button.setEnabled(false);
         frame.repaint();
         
+        //get cost of ticket
+        ArrayList ticket =  (ArrayList) ticketList.get(ticketCombo.getSelectedIndex());
+        
+        
+        //Add to shopping cart
+        cart.add(1, buttonArray.indexOf(button), ticketCombo.getSelectedItem().toString(), ticket.get(2).toString());
+        cart.printItems();
         //Get id of the button
         int buttonId = buttonArray.indexOf(button);
         try{
-            new Database().runUpdate("INSERT INTO bookings VALUES("
-                    + ""
-                    +")");
+            String sql = "INSERT INTO bookings (showing_id, seat_number, reference) VALUES("
+                           + "1,"
+                           + button.getText() + ","
+                           + "'" + new Utilities().randomString() + "'"
+                           +")";
+            System.out.println(sql);
+            new Database().runUpdate(sql);
         }
         catch(Exception e){
             
