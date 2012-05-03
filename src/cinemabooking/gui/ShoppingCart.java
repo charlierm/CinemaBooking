@@ -5,8 +5,11 @@
 package cinemabooking.gui;
 
 import cinemabooking.Booking;
+import cinemabooking.Database;
+import cinemabooking.Utilities;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -19,7 +22,7 @@ public class ShoppingCart {
         items = new ArrayList();
     }
     
-    public void add(int showingId, int seat, String ticketType, String ticketCost){
+    public void add(int showingId, String seat, String ticketType, String ticketCost){
         ArrayList item = new ArrayList();
         item.add(showingId);
         item.add(seat);
@@ -30,13 +33,44 @@ public class ShoppingCart {
     
     public void printItems(){
         Iterator itr = items.iterator();
-        int i = 0;
         while(itr.hasNext()){
-            ArrayList item = items.get(i);
+            ArrayList item = (ArrayList) itr.next();
             System.out.println(item.get(0).toString()
                     + item.get(1).toString()
                     + item.get(2).toString()
                     + item.get(3).toString());
         }
+    }
+    
+    public void saveItems(){
+        Iterator itr = items.iterator();
+        while(itr.hasNext()){
+            ArrayList item = (ArrayList) itr.next();
+            try{
+            String sql = "INSERT INTO bookings (showing_id, seat_number, reference) VALUES("
+                           + Integer.parseInt(item.get(0).toString()) + ", "
+                           + item.get(1).toString() + ","
+                           + "'" + new Utilities().randomString() + "'"
+                           +")";
+            
+            System.out.println(sql);
+            new Database().runUpdate(sql);
+        }
+        catch(Exception e){
+            
+        }
+        }
+        
+    }
+    
+    
+    public double calculateTotal(){
+        Iterator itr = items.iterator();
+        double calc = 0;
+        while(itr.hasNext()){
+            ArrayList item = (ArrayList) itr.next();
+            calc = calc + Double.parseDouble(item.get(3).toString());
+        }
+        return calc;
     }
 }

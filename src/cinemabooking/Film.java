@@ -3,6 +3,7 @@ package cinemabooking;
 import cinemabooking.config.*;
 import java.net.URLEncoder;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import us.monoid.web.Resty;
 
 /**
@@ -25,7 +26,7 @@ public class Film {
     
     
     
-    Film(){
+    public Film(){
         try{
             database = new Database();
         }
@@ -111,19 +112,19 @@ public class Film {
         }
     }
     
-    public void getFromFlixster(){
-        String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=shaun%20of%20the%20dead&page_limit=1&page=1&apikey=arh4c7r5tyfxf5u5d53v7tqk";
+    public ArrayList getFromFlixster(){
         Resty r = new Resty();
+        ArrayList<String> filmInfo = new ArrayList<String>();
         try {
             String encodedTitle = URLEncoder.encode(title, "UTF-8");
-            System.out.print(encodedTitle);
-            System.out.print(r.json(url).get("movies[0].critics_consensus"));
+            String url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?q="
+                    + encodedTitle
+                    + "&page_limit=1&page=1&apikey=arh4c7r5tyfxf5u5d53v7tqk";
+            filmInfo.add(r.json(url).get("movies[0].synopsis").toString());
+            filmInfo.add(r.json(url).get("movies[0].posters.detailed").toString());
         } catch (Exception e) {
             System.err.print(e);
         }
-        
-        
-        
-        
+        return filmInfo;
     }
 }

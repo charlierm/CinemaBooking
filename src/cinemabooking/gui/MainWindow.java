@@ -8,6 +8,8 @@ import cinemabooking.Film;
 import cinemabooking.FilmCollection;
 import cinemabooking.Utilities;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,9 +19,10 @@ import javax.swing.table.TableModel;
  *
  * @author charlie_r_mills
  */
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame implements ActionListener{
     private JPanel filmsPanel;
     private JPanel bookingPanel;
+    private BookingPanel booking;
     
     public MainWindow(){
     
@@ -42,46 +45,26 @@ public class MainWindow extends JFrame{
         add(tabs);
         
         new BookingPanel(this.bookingPanel);
+        new FilmPanel (this.filmsPanel);
         
-        filmsPanel.add(bookingList());
         this.repaint();
-    }
-    
-    public JList filmList(){
-        String[] selections = { "Film1", "Film2", "Film3", "Film4" };
-        JList list = new JList(selections);
-        
-        return list;
     }
     
     public void createMenu(){
         JMenuBar menubar = new JMenuBar();
         JMenu menu = new JMenu("File");
-        menu.add(new JMenuItem("Save"));
         menu.add(new JMenuItem("Quit"));
+        JMenuItem clear = new JMenuItem("Clear Current Booking");
+        clear.addActionListener(this);
+        menu.add(clear);
         menubar.add(menu);
         this.setJMenuBar(menubar);
     }
-    
-    public JComboBox bookingList(){
-        
-        String[] selections = new String[new FilmCollection().fetchAll().countFilms()];
-        
-        FilmCollection films = new FilmCollection().fetchAll();
-        System.out.print(films.countFilms());
-        
-        Iterator itr = films.iterator();
-        
-        int i = 0;
-            
-            while(itr.hasNext()){
-                Film film = (Film) itr.next();
-                selections[i] = film.title;
-                i++;
-            }
-        
-        JComboBox combo = new JComboBox(selections);
-        
-        return combo;
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        bookingPanel.removeAll();
+        bookingPanel.repaint();
+        booking = new BookingPanel(this.bookingPanel);
     }
 }
