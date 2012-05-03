@@ -1,0 +1,8 @@
+----------------------------------------------------------------
+2012-04-23 00:47:26.955 GMT:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.6.2.1 - (999685): instance a816c00e-0136-dcaa-dc00-0000048d8398 
+on database directory /Users/charlie_r_mills/.CinemaBooking  with class loader sun.misc.Launcher$AppClassLoader@1f3e8d89 
+Loaded from file:/Users/charlie_r_mills/NetBeansProjects/CinemaBooking/Archive/lib/derby.jar
+java.vendor=Apple Inc.
+java.runtime.version=1.6.0_29-b11-402-11D50b
+Database Class Loader started - derby.database.classpath=''

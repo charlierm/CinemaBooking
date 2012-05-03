@@ -7,7 +7,6 @@ package cinemabooking.gui;
 import cinemabooking.Film;
 import cinemabooking.FilmCollection;
 import cinemabooking.Utilities;
-import java.awt.Insets;
 import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,8 +17,6 @@ import javax.swing.table.TableModel;
  * @author charlie_r_mills
  */
 public class MainWindow extends JFrame{
-    private JPanel filmsPanel;
-    private JPanel bookingPanel;
     
     public MainWindow(){
     
@@ -31,9 +28,24 @@ public class MainWindow extends JFrame{
         setSize(800,500);
         
         
-        this.createMenu();
-        this.filmsPanel = new JPanel();
-        this.bookingPanel = new JPanel();
+     
+        JMenuBar menubar = new JMenuBar();
+        JMenu menu = new JMenu("File");
+        
+        menu.add(new JMenuItem("Save"));
+        menu.add(new JMenuItem("Quit"));
+        
+        JLabel booking = new JLabel("booking");
+        JLabel films = new JLabel("films");
+        
+        menubar.add(menu);
+        this.setJMenuBar(menubar);
+        
+        JPanel filmsPanel = new JPanel();
+        JPanel bookingPanel = new JPanel();
+        
+        filmsPanel.add(films);
+        bookingPanel.add(booking);
         
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Films", filmsPanel);
@@ -41,8 +53,12 @@ public class MainWindow extends JFrame{
         
         add(tabs);
         
-        new BookingPanel(this.bookingPanel);
+        JButton[] buttons = new JButton[30];
         
+        for(int row = 0; row < 30; row++){
+            buttons[row] = new JButton("sdfdsf");
+            bookingPanel.add(buttons[row]);
+        }
         filmsPanel.add(bookingList());
         this.repaint();
     }
@@ -52,15 +68,6 @@ public class MainWindow extends JFrame{
         JList list = new JList(selections);
         
         return list;
-    }
-    
-    public void createMenu(){
-        JMenuBar menubar = new JMenuBar();
-        JMenu menu = new JMenu("File");
-        menu.add(new JMenuItem("Save"));
-        menu.add(new JMenuItem("Quit"));
-        menubar.add(menu);
-        this.setJMenuBar(menubar);
     }
     
     public JComboBox bookingList(){

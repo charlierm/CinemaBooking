@@ -28,7 +28,7 @@ public class Database {
     /**
      * Initializes class variables with settings saved in Config Class
      */
-    public Database() throws Exception{
+    Database() throws Exception{
         //Get db settings from config class
         config = new Config().getDatabaseConfig();
         this.connect();
